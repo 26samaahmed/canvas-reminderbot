@@ -8,7 +8,7 @@ load_dotenv()
 TOKEN = os.getenv("TOKEN")
 # event: something happens that triggers the bot so it can respond to it.
 
-# gives the bot limited access to what even they listen to/recieve
+# gives the bot limited access to what they listen to/recieve
 intents = discord.Intents.default()
 
 # allows the bot to access the contents of user messages
@@ -34,7 +34,7 @@ async def on_message(message):
 '''
 
 @bot.command()
-    #ctx stands for 'Context as the first one'
+    # ctx stands for 'Context as the first one'
     # inside of Embed, I pass the arguments i want in my embed like title, link, description, etc
 async def embed(ctx):
     embed=discord.Embed(title="Daily Assignments", url="https://csufullerton.instructure.com/calendar#view_name=month&view_start=2023-12-19", 
