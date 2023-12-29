@@ -16,7 +16,7 @@ def get_assignments():
   start_time = datetime.date(2023, 8, 23)
   end_time = datetime.date(2023, 9, 30)
   delta = datetime.timedelta(days=1)
-  course = canvas.get_course(3395962)
+  course = canvas.get_course("course code")
   assignments = course.get_assignments()
 
   for assignment in assignments:
