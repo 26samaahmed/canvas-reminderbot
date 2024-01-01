@@ -14,8 +14,7 @@ canvas = Canvas(API_URL, CANVAS_API_KEY)
 
 def get_assignments():
   start_time = datetime.date(2023, 8, 23)
-  end_time = datetime.date(2023, 9, 30)
-  delta = datetime.timedelta(days=1)
+  end_time = datetime.date(2023, 10, 30)
   course = canvas.get_course(3395962)
   assignments = course.get_assignments()
 
@@ -25,14 +24,12 @@ def get_assignments():
       pass
     else:
     # Convert to YEAR/MONTH/DAY format so i can check if the assignment due date is between the 2 restrictions
-      convert_due_date = datetime.datetime.strptime(assignment.due_at, "%Y-%m-%dT%H:%M:%SZ")
-      formatted_due_date = convert_due_date.strftime("%Y-%m-%d")
-      print(formatted_due_date , assignment)
+      due_date = datetime.datetime.strptime(assignment.due_at, "%Y-%m-%dT%H:%M:%SZ").date()
+      if start_time <= due_date <= end_time:
+        print(due_date , assignment)
 
 
 get_assignments()
-# TODO: Access all my courses and get the assignments per week/day
-
 
 
 # future implementations: 
