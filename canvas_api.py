@@ -12,11 +12,11 @@ API_URL = os.getenv("API_URL")
 canvas = Canvas(API_URL, CANVAS_API_KEY)
 
 
-def get_assignments():
-  start_time = datetime.date(2023, 8, 23)
-  end_time = datetime.date(2023, 9, 30)
-  delta = datetime.timedelta(days=1)
-  course = canvas.get_course("course code")
+def get_assignments(course_id):
+  # Dates are for testing purposes. Change eventually to display assignments for today only using data.today() == assignment.due_date
+  start_time = datetime.date(2022, 8, 23)
+  end_time = datetime.date(2022, 9, 30)
+  course = canvas.get_course(course_id)
   assignments = course.get_assignments()
 
   for assignment in assignments:
@@ -28,9 +28,27 @@ def get_assignments():
       due_date = datetime.datetime.strptime(assignment.due_at, "%Y-%m-%dT%H:%M:%SZ").date()
       if start_time <= due_date <= end_time:
         print(due_date , assignment)
+      '''
+      if assigment.due_date == date.today():
+        print(assignment)
+      else:
+        print("No assignments due today for {course}")
+      '''
 
 
-get_assignments()
+# Create a function that retrieves all the user's current_courses.
+# Call the get_assignment function, passing the course's id in it, Assignments will then be printed for each cpurse
+def get_courses():
+  user = canvas.get_current_user()
+  print(user)
+  courses = user.get_courses(enrollment_state="completed") # WIP
+  for course in courses:
+    print(course)
+
+
+
+get_assignments("course_code")
+get_courses()
 
 
 # future implementations: 
