@@ -27,37 +27,18 @@ def get_assignments(course_id):
     # Convert to YEAR/MONTH/DAY format so i can check if the assignment due date is between the 2 restrictions
       due_date = datetime.datetime.strptime(assignment.due_at, "%Y-%m-%dT%H:%M:%SZ").date()
       if start_time <= due_date <= end_time:
-        print(due_date , assignment)
-      '''
-      if assigment.due_date == date.today():
-        print(assignment)
+        print(course.name, '->', assignment.name, 'due at' , due_date)
       else:
-        print("No assignments due today for {course}")
-      '''
+        print(f"No assignments are due on Canvas this for {course.name}")
+        break
 
-
-
-# get_assignments("user code")
-
-# Create a function that retrieves all the user's current_courses.
-# Call the get_assignment function, passing the course's id in it, Assignments will then be printed for each cpurse
-#def get_courses():
-user = canvas.get_user("user_id")
-print(user)
-courses = user.get_courses() # WIP
-for course in courses:
-  if hasattr(course, 'name'):
-    if 'Spring 2024' in course.name:
-      print(course.name)
- # else:
-    #print(f"Course object does not have 'name' attribute: {course}")
-
-
-
-#get_courses()
-
-
-# future implementations: 
-  # have a slash command like !grades and the bot would send the current grades for all classes
-  # have a slash command like !done1 if I finished an assignment and want to cross it out of the list
-  # have a slash command like !quizzes to remind the person with the quizzes due that week
+def get_courses():
+  user = canvas.get_user('user_id')
+  print(user)
+  courses = user.get_courses() # retrieve user courses
+  for course in courses:
+    if hasattr(course, 'name'):
+      if 'Spring 2024' in course.name: # get the courses for that specific semester
+        get_assignments(course.id)
+  # else:
+      #print(f"Course object does not have 'name' attribute: {course}")

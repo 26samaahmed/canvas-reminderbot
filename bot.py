@@ -14,7 +14,7 @@ intents = discord.Intents.default()
 # allows the bot to access the contents of user messages
 intents.message_content = True 
 client = discord.Client(intents=intents)
-bot = commands.Bot(command_prefix='$', intents=intents)
+bot = commands.Bot(command_prefix='/', intents=intents)
 
 # async function is when we don't need to wait for the current execution to be done before we move on to the next.
 @client.event
@@ -44,6 +44,6 @@ async def embed(ctx):
     embed.add_field(name="Course name 1 ", value="assignment details + link", inline=False)
     embed.add_field(name="Course name 2 ", value="assignment details + link", inline=False)
     embed.add_field(name="Course name 3 ", value="assignment details + link", inline=False)
-    await ctx.send(embed=embed)
+    await ctx.send(assignments=embed)
 
 bot.run(TOKEN)
