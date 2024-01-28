@@ -1,7 +1,7 @@
 from canvasapi import Canvas
 import os
 from dotenv import load_dotenv
-import datetime
+from datetime import datetime, timedelta, date
 
 load_dotenv()
 
@@ -13,9 +13,6 @@ canvas = Canvas(API_URL, CANVAS_API_KEY)
 
 
 def get_assignments(course_id):
-  # Dates are for testing purposes. Change eventually to display assignments for today only using data.today() == assignment.due_date
-  start_time = datetime.date(2024, 1, 23)
-  end_time = datetime.date(2024, 1, 30)
   course = canvas.get_course(course_id)
   assignments = course.get_assignments()
 
@@ -25,16 +22,21 @@ def get_assignments(course_id):
       pass
     else:
     # Convert to YEAR/MONTH/DAY format so i can check if the assignment due date is between the 2 restrictions
-      due_date = datetime.datetime.strptime(assignment.due_at, "%Y-%m-%dT%H:%M:%SZ").date()
-      if start_time <= due_date <= end_time:
+      due_date = datetime.strptime(assignment.due_at, "%Y-%m-%dT%H:%M:%SZ").date()
+      # If the assignment's due date is within the next 7 days then print it
+      if date.today() + timedelta(days=1) <= due_date <=  date.today() + timedelta(days=7):
         print(course.name, '->', assignment.name, 'due at' , due_date)
+        #print("due date is: ", due_date)
+        #print("today's date: ", date.today())
+        #print("start: ", start_time)
+        #print("end: ", end_time)
+        #print("one week from now: ", date.today() + timedelta(days=7))
       else:
-        print(f"No assignments are due on Canvas this for {course.name}")
-        break
+        continue
+        
 
 def get_courses():
-  user = canvas.get_user('user_id')
-  print(user)
+  user = canvas.get_user('user id')
   courses = user.get_courses() # retrieve user courses
   for course in courses:
     if hasattr(course, 'name'):
